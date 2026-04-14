@@ -12,7 +12,11 @@ function VerifiedBadge({ size = 28 }) {
       <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
-}
+} <img
+  src="/assets/ahmed-nabil.jpeg"
+  alt="Ahmed Nabil"
+  className="w-full h-full object-cover object-center"
+/>
 
 function NetWorthTicker() {
   const [value, setValue] = useState(0)
@@ -247,3 +251,4 @@ export default function Hero() {
     </section>
   )
 }
+
