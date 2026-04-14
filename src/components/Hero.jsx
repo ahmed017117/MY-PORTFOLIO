@@ -30,7 +30,7 @@ function NetWorthTicker() {
 
   useEffect(() => {
     if (!started) return
-    const target = 2.47
+    const target = 10
     const duration = 2500
     const start = Date.now()
     const tick = () => {
@@ -137,7 +137,7 @@ export default function Hero() {
         >
           {/* ✅ তোমার ছবি এখানে আছে */}
           <img
-            src="/assets/ahmed-nabil.jpeg"
+            src="/assets/ahmed-nabil.jpg"
             alt="Ahmed Nabil"
             className="w-full h-full object-cover object-center"
             onError={(e) => {
