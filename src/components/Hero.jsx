@@ -13,7 +13,7 @@ function VerifiedBadge({ size = 28 }) {
     </svg>
   )
 } <img
-  src="/assets/ahmed-nabil.jpeg"
+  public="/assets/ahmed-nabil.jpeg"
   alt="Ahmed Nabil"
   className="w-full h-full object-cover object-center"
 />
