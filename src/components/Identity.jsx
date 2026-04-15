@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const traits = [
   { label: 'International Businessman', icon: '◈' },
-  { label: 'Forex Trader', icon: '◇' },
+  { label: 'Forex Trader', icon: '◉' },
   { label: 'Dropshipper', icon: '◆' },
   { label: 'Global Investor', icon: '◉' },
 ]
