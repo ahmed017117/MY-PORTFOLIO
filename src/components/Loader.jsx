@@ -4,56 +4,74 @@ import { gsap } from "gsap";
 export default function Loader({ onComplete }) {
   const loaderRef = useRef(null);
   const nameRef = useRef(null);
+  const cursorRef = useRef(null);
   const lineRef = useRef(null);
   const planetRef = useRef(null);
   const blastRef = useRef(null);
+  const glowRef = useRef(null);
 
   useEffect(() => {
     const tl = gsap.timeline();
 
-    // 1️⃣ Typing effect (letter by letter)
     const text = "AHMED NABIL";
-    nameRef.current.textContent = "";
+    let current = "";
 
+    // ✍️ Typing with cursor
     text.split("").forEach((char, i) => {
-      tl.to(nameRef.current, {
-        duration: 0.05,
+      tl.to({}, {
+        duration: 0.06,
         onUpdate: () => {
-          nameRef.current.textContent += char;
+          current += char;
+          nameRef.current.textContent = current;
         }
       });
     });
 
-    // 2️⃣ Line fill (fast)
-    tl.fromTo(
-      lineRef.current,
-      { scaleX: 0 },
-      { scaleX: 1, duration: 0.5, ease: "power2.out" }
-    );
+    // Cursor blink stop
+    tl.to(cursorRef.current, { opacity: 0, duration: 0.2 });
 
-    // 3️⃣ Planet appear
+    // ⚡ Line fill (FAST)
+    tl.to(lineRef.current, {
+      scaleX: 1,
+      duration: 0.4,
+      ease: "power2.out"
+    });
+
+    // 🌌 Glow build
+    tl.to(glowRef.current, {
+      opacity: 1,
+      duration: 0.6
+    });
+
+    // 🌍 Planet appear + rotate feel
     tl.fromTo(
       planetRef.current,
-      { scale: 0, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(2)" }
+      { scale: 0, opacity: 0, rotate: 0 },
+      { scale: 1, opacity: 1, rotate: 180, duration: 0.8, ease: "back.out(2)" }
     );
 
-    // 4️⃣ Blast effect
+    // 💥 Blast shockwave
     tl.to(planetRef.current, {
-      scale: 2.5,
+      scale: 3,
       opacity: 0,
       duration: 0.4,
-      ease: "power3.out"
+      ease: "power3.in"
     });
 
     tl.fromTo(
       blastRef.current,
-      { opacity: 0, scale: 0.5 },
-      { opacity: 1, scale: 3, duration: 0.4, ease: "power2.out" },
+      { scale: 0.5, opacity: 0 },
+      { scale: 4, opacity: 1, duration: 0.4, ease: "power2.out" },
       "-=0.3"
     );
 
-    // 5️⃣ Exit
+    // 🔥 Screen glow flash
+    tl.to(glowRef.current, {
+      opacity: 0.8,
+      duration: 0.2
+    });
+
+    // 🚪 Exit
     tl.to(loaderRef.current, {
       opacity: 0,
       duration: 0.6,
@@ -79,36 +97,57 @@ export default function Loader({ onComplete }) {
         overflow: "hidden"
       }}
     >
-      {/* Name */}
-      <h1
-        ref={nameRef}
+      {/* Glow background */}
+      <div
+        ref={glowRef}
         style={{
-          fontSize: "clamp(2.5rem, 8vw, 5rem)",
-          fontWeight: 300,
-          letterSpacing: "0.3em",
-          color: "#fff",
-          fontFamily: "serif"
+          position: "absolute",
+          inset: 0,
+          background:
+            "radial-gradient(circle, rgba(0,240,255,0.15), transparent 70%)",
+          opacity: 0
         }}
-      ></h1>
+      />
+
+      {/* Name + cursor */}
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <h1
+          ref={nameRef}
+          style={{
+            fontSize: "clamp(2.5rem, 8vw, 5rem)",
+            fontWeight: 300,
+            letterSpacing: "0.3em",
+            color: "#fff"
+          }}
+        ></h1>
+
+        <span
+          ref={cursorRef}
+          style={{
+            width: "2px",
+            height: "40px",
+            background: "#00f0ff",
+            marginLeft: "5px",
+            animation: "blink 1s infinite"
+          }}
+        />
+      </div>
 
       {/* Line */}
-      <div
-        style={{
-          width: "150px",
-          height: "2px",
-          background: "rgba(255,255,255,0.2)",
-          marginTop: "20px",
-          overflow: "hidden"
-        }}
-      >
+      <div style={{
+        width: "160px",
+        height: "2px",
+        background: "rgba(255,255,255,0.1)",
+        marginTop: "20px"
+      }}>
         <div
           ref={lineRef}
           style={{
             width: "100%",
             height: "100%",
             background: "linear-gradient(90deg,#00f0ff,#FFD700)",
-            transformOrigin: "left",
-            transform: "scaleX(0)"
+            transform: "scaleX(0)",
+            transformOrigin: "left"
           }}
         />
       </div>
@@ -117,13 +156,13 @@ export default function Loader({ onComplete }) {
       <div
         ref={planetRef}
         style={{
-          width: "60px",
-          height: "60px",
+          width: "70px",
+          height: "70px",
           borderRadius: "50%",
           marginTop: "40px",
           background:
             "radial-gradient(circle at 30% 30%, #00f0ff, #001f2f)",
-          boxShadow: "0 0 40px #00f0ff",
+          boxShadow: "0 0 50px #00f0ff",
           opacity: 0
         }}
       />
@@ -133,14 +172,24 @@ export default function Loader({ onComplete }) {
         ref={blastRef}
         style={{
           position: "absolute",
-          width: "200px",
-          height: "200px",
+          width: "250px",
+          height: "250px",
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(255,255,255,0.8), transparent)",
+            "radial-gradient(circle, rgba(255,255,255,0.9), transparent)",
           opacity: 0
         }}
       />
+
+      {/* Cursor animation */}
+      <style>
+        {`
+          @keyframes blink {
+            0%, 50%, 100% { opacity: 1 }
+            25%, 75% { opacity: 0 }
+          }
+        `}
+      </style>
     </div>
   );
 }
