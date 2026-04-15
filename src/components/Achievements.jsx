@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const achievements = [
   { number: 12, suffix: '+', label: 'Ventures Founded', color: '#00f0ff', desc: 'Successful exits & active companies' },
-  { number: 2.47, suffix: 'B', label: 'Net Worth (USD)', color: '#FFD700', prefix: '$', desc: 'And growing exponentially' },
+  { number: 10, suffix: 'B', label: 'Net Worth (USD)', color: '#FFD700', prefix: '$', desc: 'And growing exponentially' },
   { number: 30, suffix: '+', label: 'Countries', color: '#a78bfa', desc: 'Global operational presence' },
   { number: 50000, suffix: '+', label: 'Lives Impacted', color: '#34d399', desc: 'Jobs created & communities built' },
   { number: 15, suffix: '', label: 'Industry Awards', color: '#fb923c', desc: 'Top entrepreneur recognition' },
