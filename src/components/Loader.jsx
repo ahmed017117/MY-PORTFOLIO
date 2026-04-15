@@ -15,6 +15,7 @@ export default function Loader({ onComplete }) {
       onComplete: () => {
         gsap.to(loaderRef.current, {
           opacity: 0,
+          scale: 1.1,
           duration: 1,
           ease: "power4.inOut",
           onComplete: onComplete,
@@ -22,42 +23,48 @@ export default function Loader({ onComplete }) {
       },
     });
 
-    // 👑 Crown animation
-    tl.from(crownRef.current, {
-      y: -100,
-      opacity: 0,
-      duration: 1,
-      ease: "power4.out",
-    });
+    // 👑 Crown draw animation
+    const paths = crownRef.current.querySelectorAll("path");
 
-    // ✨ Name animation (letter effect)
+    tl.fromTo(
+      paths,
+      { strokeDasharray: 500, strokeDashoffset: 500 },
+      {
+        strokeDashoffset: 0,
+        duration: 1.5,
+        stagger: 0.2,
+        ease: "power3.out",
+      }
+    );
+
+    // ✨ Name reveal (ultra smooth)
     const letters = nameRef.current.children;
 
     tl.from(
       letters,
       {
         opacity: 0,
-        y: 50,
+        y: 80,
+        rotateX: 90,
         stagger: 0.05,
-        duration: 0.8,
-        ease: "power3.out",
+        duration: 1,
+        ease: "power4.out",
       },
-      "-=0.5"
+      "-=1"
     );
 
     // 🔥 Glow pulse
     tl.to(nameRef.current, {
-      scale: 1.05,
-      repeat: 1,
+      textShadow: "0 0 20px #FFD700, 0 0 40px #FFD700",
+      duration: 0.8,
       yoyo: true,
-      duration: 0.6,
-      ease: "power1.inOut",
+      repeat: 1,
     });
 
-    // 📊 Progress
+    // 📊 Progress animation
     tl.to(progress, {
       value: 100,
-      duration: 2.5,
+      duration: 3,
       ease: "power2.out",
       onUpdate: () => {
         const val = Math.floor(progress.value);
@@ -69,44 +76,64 @@ export default function Loader({ onComplete }) {
     return () => tl.kill();
   }, [onComplete]);
 
-  // 🔤 Split name into letters
   const name = "AHMED NABIL";
 
   return (
     <div
       ref={loaderRef}
-      className="fixed top-0 left-0 w-full h-full bg-black flex flex-col items-center justify-center text-white z-50"
+      className="fixed inset-0 bg-black flex flex-col items-center justify-center text-white z-50 overflow-hidden"
     >
-      {/* 👑 Crown */}
-      <div
-        ref={crownRef}
-        className="text-5xl mb-4"
-      >
-        👑
-      </div>
+      {/* 🌌 Background Glow */}
+      <div className="absolute w-[500px] h-[500px] bg-yellow-500 opacity-10 blur-[150px] rounded-full"></div>
 
-      {/* ✨ Name */}
+      {/* 👑 Custom Crown SVG */}
+      <svg
+        ref={crownRef}
+        width="180"
+        height="100"
+        viewBox="0 0 300 150"
+        fill="none"
+        stroke="white"
+        strokeWidth="3"
+        className="mb-6"
+      >
+        <path d="M10 120 L60 40 L110 120 L160 30 L210 120 L260 50 L290 120" />
+        <path d="M40 120 Q150 140 260 120" />
+        <circle cx="60" cy="40" r="6" />
+        <circle cx="160" cy="30" r="6" />
+        <circle cx="260" cy="50" r="6" />
+      </svg>
+
+      {/* ✨ Premium Name */}
       <h1
         ref={nameRef}
-        className="text-4xl md:text-6xl font-serif tracking-widest flex"
+        className="flex text-4xl md:text-6xl font-serif tracking-[0.3em]"
+        style={{
+          background: "linear-gradient(90deg, #fff, #FFD700, #fff)",
+          WebkitBackgroundClip: "text",
+          color: "transparent",
+        }}
       >
         {name.split("").map((letter, i) => (
           <span key={i}>{letter}</span>
         ))}
       </h1>
 
-      {/* 📊 Loading Bar */}
-      <div className="mt-10 w-64 h-[3px] bg-gray-700 overflow-hidden">
+      {/* 📊 Luxury Loading Bar */}
+      <div className="mt-10 w-72 h-[2px] bg-gray-800 overflow-hidden relative">
         <div
           ref={barRef}
-          className="h-full bg-white w-0"
+          className="h-full bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 w-0"
         ></div>
       </div>
 
       {/* % */}
-      <p ref={percentRef} className="mt-3 text-sm tracking-widest">
+      <p
+        ref={percentRef}
+        className="mt-3 text-xs tracking-[0.4em] text-gray-400"
+      >
         0%
       </p>
     </div>
   );
-}
+          }
