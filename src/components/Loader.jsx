@@ -163,12 +163,4 @@ export default function Loader({ onComplete }) {
           </div>
         </div>
 
-        {/* Bottom decorative line */}
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, #FFD700, transparent)', opacity: 0.3 }} />
-      </div>
 
-      {/* Center divider line */}
-      <div className="absolute inset-x-0 z-20 pointer-events-none" style={{ top: '50%', height: '1px', background: 'linear-gradient(90deg, transparent, #00f0ff, #FFD700, #00f0ff, transparent)', opacity: 0.6 }} />
-    </div>
-  )
-}
