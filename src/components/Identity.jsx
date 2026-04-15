@@ -5,10 +5,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const traits = [
-  { label: 'Strategist', icon: '◈' },
-  { label: 'Innovator', icon: '◇' },
-  { label: 'Investor', icon: '◆' },
-  { label: 'Visionary', icon: '◉' },
+  { label: 'International Businessman', icon: '◈' },
+  { label: 'Forex Trader', icon: '◇' },
+  { label: 'Dropshipper', icon: '◆' },
+  { label: 'Global Investor', icon: '◉' },
 ]
 
 export default function Identity() {
@@ -33,13 +33,11 @@ export default function Identity() {
         }
       )
     }, sectionRef)
-
     return () => ctx.revert()
   }, [])
 
   return (
     <section id="identity" ref={sectionRef} className="relative py-32 px-6 max-w-7xl mx-auto">
-      {/* Section label */}
       <div ref={headingRef} className="flex items-center gap-4 mb-16">
         <span className="font-mono text-[0.65rem] text-neon tracking-[0.4em] uppercase">01</span>
         <span className="flex-1 max-w-xs h-[1px] bg-gradient-to-r from-neon/40 to-transparent" />
@@ -56,15 +54,14 @@ export default function Identity() {
           <blockquote className="font-display text-2xl md:text-3xl font-light text-white/90 leading-relaxed italic mb-8">
             "I don't follow markets — I create them."
           </blockquote>
-          <p className="text-white/50 text-sm leading-relaxed font-light mb-6">
-            Ahmed Nabil is a serial entrepreneur, global investor, and digital empire architect. 
-            With a relentless drive for innovation, he has built ventures spanning technology, 
-            real estate, media, and finance — all unified by one vision: <span className="text-neon">redefining what's possible</span>.
+          <p className="text-white/50 text-sm leading-relaxed font-light mb-4">
+            Ahmed Nabil is an <span className="text-neon">international global businessman</span>, professional Forex trader, and e-commerce empire builder. Operating across <span className="text-gold">30+ countries</span>, he has built multiple revenue streams through strategic trading, dropshipping, and high-value investments.
+          </p>
+          <p className="text-white/50 text-sm leading-relaxed font-light mb-4">
+            With a sharp eye for market movements and an obsession for scaling businesses, Ahmed has turned bold ideas into <span className="text-neon">billion-dollar realities</span> — from currency markets to global supply chains.
           </p>
           <p className="text-white/50 text-sm leading-relaxed font-light">
-            Born with an obsession for excellence, Ahmed has turned bold ideas into 
-            billion-dollar realities across <span className="text-gold">30+ countries</span>. 
-            His philosophy is simple: move fast, think deeply, and never settle.
+            His philosophy is simple: <span className="text-gold">move fast, think deeply, and never settle.</span>
           </p>
         </div>
 
@@ -89,7 +86,6 @@ export default function Identity() {
             </div>
           ))}
 
-          {/* Location */}
           <div className="mt-4 flex items-center gap-3">
             <span className="font-mono text-[0.6rem] text-white/20 tracking-widest uppercase">Based in</span>
             <span className="w-12 h-[1px] bg-white/10" />
