@@ -2,138 +2,147 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 export default function Loader({ onComplete }) {
-  const loaderRef = useRef(null);
-  const crownRef = useRef(null);
-  const nameRef = useRef(null);
-  const barRef = useRef(null);
-  const percentRef = useRef(null);
+  const root = useRef(null);
+  const crown = useRef(null);
+  const name = useRef(null);
+  const progressBar = useRef(null);
+  const percent = useRef(null);
+  const glow = useRef(null);
 
   useEffect(() => {
-    let progress = { value: 0 };
+    let prog = { val: 0 };
 
+    // 🎬 MASTER TIMELINE (layered cinematic)
     const tl = gsap.timeline({
+      defaults: { ease: "power3.out" },
       onComplete: () => {
-        gsap.to(loaderRef.current, {
+        gsap.to(root.current, {
           opacity: 0,
-          scale: 1.1,
-          duration: 1,
+          scale: 1.08,
+          filter: "blur(10px)",
+          duration: 1.2,
           ease: "power4.inOut",
           onComplete: onComplete,
         });
       },
     });
 
-    // 👑 Crown draw animation
-    const paths = crownRef.current.querySelectorAll("path");
-
+    // 👑 Crown cinematic entrance
     tl.fromTo(
-      paths,
-      { strokeDasharray: 500, strokeDashoffset: 500 },
-      {
-        strokeDashoffset: 0,
-        duration: 1.5,
-        stagger: 0.2,
-        ease: "power3.out",
-      }
+      crown.current,
+      { scale: 0.5, opacity: 0, y: -120, rotate: -10 },
+      { scale: 1, opacity: 1, y: 0, rotate: 0, duration: 1.2 }
     );
 
-    // ✨ Name reveal (ultra smooth)
-    const letters = nameRef.current.children;
+    // ✨ Crown subtle float loop
+    gsap.to(crown.current, {
+      y: "+=10",
+      repeat: -1,
+      yoyo: true,
+      duration: 2,
+      ease: "sine.inOut",
+    });
+
+    // 🔤 Name split animation
+    const letters = name.current.children;
 
     tl.from(
       letters,
       {
         opacity: 0,
-        y: 80,
-        rotateX: 90,
-        stagger: 0.05,
-        duration: 1,
+        y: 120,
+        rotateY: 90,
+        stagger: 0.04,
+        duration: 1.2,
         ease: "power4.out",
       },
-      "-=1"
+      "-=0.8"
     );
 
-    // 🔥 Glow pulse
-    tl.to(nameRef.current, {
-      textShadow: "0 0 20px #FFD700, 0 0 40px #FFD700",
-      duration: 0.8,
+    // ✨ Dynamic glow breathing
+    gsap.to(glow.current, {
+      scale: 1.4,
+      opacity: 0.6,
+      repeat: -1,
       yoyo: true,
-      repeat: 1,
+      duration: 2.5,
+      ease: "sine.inOut",
     });
 
-    // 📊 Progress animation
-    tl.to(progress, {
-      value: 100,
-      duration: 3,
-      ease: "power2.out",
+    // 📊 Progress system (smooth easing)
+    tl.to(prog, {
+      val: 100,
+      duration: 3.2,
+      ease: "expo.out",
       onUpdate: () => {
-        const val = Math.floor(progress.value);
-        percentRef.current.innerText = val + "%";
-        barRef.current.style.width = val + "%";
+        const v = Math.floor(prog.val);
+        percent.current.innerText = v + "%";
+        progressBar.current.style.transform = `scaleX(${v / 100})`;
       },
     });
 
     return () => tl.kill();
   }, [onComplete]);
 
-  const name = "AHMED NABIL";
+  const text = "AHMED NABIL";
 
   return (
     <div
-      ref={loaderRef}
+      ref={root}
       className="fixed inset-0 bg-black flex flex-col items-center justify-center text-white z-50 overflow-hidden"
     >
-      {/* 🌌 Background Glow */}
-      <div className="absolute w-[500px] h-[500px] bg-yellow-500 opacity-10 blur-[150px] rounded-full"></div>
+      {/* 🌌 Ambient Glow */}
+      <div
+        ref={glow}
+        className="absolute w-[600px] h-[600px] bg-yellow-400 opacity-20 blur-[180px] rounded-full"
+      ></div>
 
-      {/* 👑 Custom Crown SVG */}
+      {/* 👑 Crown SVG (clean luxury) */}
       <svg
-        ref={crownRef}
-        width="180"
-        height="100"
+        ref={crown}
+        width="200"
+        height="110"
         viewBox="0 0 300 150"
         fill="none"
         stroke="white"
-        strokeWidth="3"
-        className="mb-6"
+        strokeWidth="2.5"
+        className="z-10 mb-6"
       >
         <path d="M10 120 L60 40 L110 120 L160 30 L210 120 L260 50 L290 120" />
         <path d="M40 120 Q150 140 260 120" />
-        <circle cx="60" cy="40" r="6" />
-        <circle cx="160" cy="30" r="6" />
-        <circle cx="260" cy="50" r="6" />
       </svg>
 
-      {/* ✨ Premium Name */}
+      {/* ✨ Name (Luxury Typography) */}
       <h1
-        ref={nameRef}
-        className="flex text-4xl md:text-6xl font-serif tracking-[0.3em]"
+        ref={name}
+        className="flex z-10 text-5xl md:text-7xl tracking-[0.35em] font-light"
         style={{
-          background: "linear-gradient(90deg, #fff, #FFD700, #fff)",
+          background:
+            "linear-gradient(90deg,#ffffff,#FFD700,#ffffff,#FFD700)",
           WebkitBackgroundClip: "text",
           color: "transparent",
         }}
       >
-        {name.split("").map((letter, i) => (
-          <span key={i}>{letter}</span>
+        {text.split("").map((l, i) => (
+          <span key={i}>{l}</span>
         ))}
       </h1>
 
-      {/* 📊 Luxury Loading Bar */}
-      <div className="mt-10 w-72 h-[2px] bg-gray-800 overflow-hidden relative">
+      {/* 📊 Ultra Smooth Bar */}
+      <div className="mt-12 w-80 h-[2px] bg-gray-800 overflow-hidden z-10">
         <div
-          ref={barRef}
-          className="h-full bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 w-0"
+          ref={progressBar}
+          className="h-full bg-gradient-to-r from-yellow-400 via-white to-yellow-400 origin-left scale-x-0"
         ></div>
       </div>
 
       {/* % */}
       <p
-        ref={percentRef}
-        className="mt-3 text-xs tracking-[0.4em] text-gray-400"
+        ref={percent}
+        className="mt-4 text-xs tracking-[0.5em] text-gray-400 z-10"
       >
         0%
       </p>
     </div>
   );
-          }
+}
