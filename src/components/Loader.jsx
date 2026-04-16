@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 
 const letters = ['A', 'H', 'M', 'E', 'D', ' ', 'N', 'A', 'B', 'I', 'L'];
@@ -40,6 +41,52 @@ export default function Loader({ onComplete }) {
     >
       <div className="relative flex flex-col items-center gap-10">
 
+        <svg
+          width="140"
+          height="120"
+          viewBox="0 0 140 120"
+          style={{
+            animation: 'crownDrop 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+            filter: 'drop-shadow(0 10px 30px rgba(251, 191, 36, 0.3))',
+          }}
+        >
+          <defs>
+            <linearGradient id="crownGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style={{ stopColor: '#FCD34D', stopOpacity: 1 }} />
+              <stop offset="50%" style={{ stopColor: '#F59E0B', stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: '#D97706', stopOpacity: 1 }} />
+            </linearGradient>
+            <filter id="crownShadow">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" floodOpacity="0.4" />
+            </filter>
+          </defs>
+
+          <g filter="url(#crownShadow)">
+            <path
+              d="M 70 10 L 95 60 L 105 45 L 120 75 L 90 75 L 85 55 L 70 35 L 55 55 L 50 75 L 20 75 L 35 45 L 45 60 Z"
+              fill="url(#crownGradient)"
+              stroke="#B45309"
+              strokeWidth="1.5"
+            />
+
+            <path
+              d="M 55 65 L 70 45 L 85 65"
+              fill="none"
+              stroke="#1F2937"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+
+            <circle cx="35" cy="75" r="3.5" fill="#1F2937" />
+            <circle cx="52" cy="78" r="3.5" fill="#1F2937" />
+            <circle cx="88" cy="78" r="3.5" fill="#1F2937" />
+            <circle cx="105" cy="75" r="3.5" fill="#1F2937" />
+
+            <ellipse cx="70" cy="20" rx="8" ry="12" fill="url(#crownGradient)" stroke="#B45309" strokeWidth="1" />
+          </g>
+        </svg>
+
         <div className="flex items-center gap-[2px]">
           {letters.map((letter, i) => (
             <span
@@ -47,14 +94,14 @@ export default function Loader({ onComplete }) {
               className="loader-letter"
               style={{
                 display: 'inline-block',
-                fontSize: letter === ' ' ? '2.5rem' : '3rem',
-                fontWeight: 800,
-                fontFamily: "'Segoe UI', system-ui, sans-serif",
-                letterSpacing: '0.12em',
+                fontSize: letter === ' ' ? '1.5rem' : '2.5rem',
+                fontWeight: 300,
+                fontFamily: "'Segoe UI', 'Trebuchet MS', system-ui, sans-serif",
+                letterSpacing: '0.18em',
                 color: 'transparent',
-                WebkitTextStroke: '1px rgba(255,255,255,0.15)',
-                animation: 'revealLetter 0.5s forwards',
-                animationDelay: `${i * 0.08}s`,
+                WebkitTextStroke: '0.8px rgba(255,255,255,0.2)',
+                animation: 'revealLetter 0.6s forwards',
+                animationDelay: `${i * 0.12 + 0.3}s`,
                 opacity: 0,
               }}
             >
@@ -100,18 +147,31 @@ export default function Loader({ onComplete }) {
       </div>
 
       <style>{`
+        @keyframes crownDrop {
+          0% {
+            opacity: 0;
+            transform: translateY(-50px) scale(0.5);
+          }
+          70% {
+            transform: translateY(5px) scale(1);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
         @keyframes revealLetter {
           0% {
             opacity: 0;
-            transform: translateY(20px);
-            -webkit-text-stroke: 1px rgba(255,255,255,0.15);
+            transform: translateY(15px);
+            -webkit-text-stroke: 0.8px rgba(255,255,255,0.1);
             color: transparent;
           }
-          60% {
-            opacity: 1;
+          50% {
+            opacity: 0.7;
             transform: translateY(0);
-            -webkit-text-stroke: 1px rgba(255,255,255,0.4);
-            color: transparent;
+            -webkit-text-stroke: 0.8px rgba(255,255,255,0.3);
           }
           100% {
             opacity: 1;
@@ -129,3 +189,4 @@ export default function Loader({ onComplete }) {
     </div>
   );
 }
+
